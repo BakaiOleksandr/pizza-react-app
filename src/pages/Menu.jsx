@@ -14,8 +14,8 @@ export default function Menu({pizzas}) {
   const listOfIngredients = Object.keys(countItems).filter(
     (item) => countItems[item] > 1
   );
-  console.log(newArrayOfIngredients);
-  console.log(listOfIngredients);
+  console.log(`NEW ARRAY ${newArrayOfIngredients}`);
+  console.log(`INGREDIENTS ${listOfIngredients}`);
   //////
 
   //State
@@ -49,25 +49,44 @@ export default function Menu({pizzas}) {
     <PizzaCard key={pizza.id} pizza={pizza} />
   ));
 
+  //FilterIngredient
+  const FilterIngredient = (ingredient) => {
+    const filterIngredient = pizzas.filter((pizza) => {
+      return pizza.ingredients.includes(ingredient);
+    });
+    setPizzasState(filterIngredient);
+  };
+
+  ////
+
   //////////////////////
   return (
     <>
       <div className="filters">Filters</div>
+
       <button className="btn price" onClick={PriceOnToggle}>
         Price {priceState ? 'Low→High' : 'High→Low'}
       </button>
+
       {/* REFRESH */}
       <button className="btn refresh" onClick={() => setPizzasState(pizzas)}>
         Refresh
       </button>
       {/* ///// */}
+
       <br></br>
+
       <div className="ingredients">Ingredients</div>
       {listOfIngredients.map((ingredient, index) => (
-        <button className="btn" key={index}>
+        <button
+          className="btn"
+          key={index}
+          onClick={() => FilterIngredient(ingredient)}
+        >
           {ingredient}
         </button>
       ))}
+
       <div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {mapped}
       </div>
